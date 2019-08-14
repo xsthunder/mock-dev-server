@@ -1,6 +1,7 @@
 const path = require('path')
 const Server = require('./src/server')
 const initMock = require('./src/init')
+const express = require('express')
 
 /**
  * mock服务
@@ -11,10 +12,14 @@ function MockServer({
   mock = 'mock',
   watch = false,
   port = 3000,
-  base = '/'
+  base = '/',
+  staticDir = '',
 }, common) {
   const server = new Server(port)
 
+  if(staticDir){ // use a static dir
+    server.app.use(express.static(staticDir))
+  }
   // common data
   let commonData
   if (common && typeof common === 'function') {

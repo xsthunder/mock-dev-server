@@ -27,6 +27,12 @@ const argv = require('yargs')
     alias: 'version',
     describe: '查看当前版本号'
   })
+  .option('s',{
+    alias: 'staticDir',
+    describe: '静态文件夹路径',
+    default: '',
+    type: 'string'
+  })
   .usage('Usage: mock-server [options]')
   .example('mock-server -m mock --port 3000 -w -b /api')
   .help('h')
@@ -37,7 +43,7 @@ const fs = require('fs')
 const path = require('path')
 const mockServer = require('../index')
 const deleteComments = require('../src/util').deleteComments
-const { mock, watch, port, base, version } = argv
+const { mock, watch, port, base, version, staticDir} = argv
 
 if (version) {
   fs.readFile(path.resolve(__dirname, '..', 'package.json'), 'utf8', (err, data) => {
@@ -57,5 +63,6 @@ mockServer({
   mock,
   watch,
   port,
-  base
+  base,
+  staticDir
 })
